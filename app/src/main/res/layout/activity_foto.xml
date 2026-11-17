@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- L'editor foto, in verticale: sopra indietro/annulla/rifai e Save, al centro la foto,
+     sotto il pannello dell'attrezzo scelto e i quattro attrezzi. I pannelli nascosti sono
+     INVISIBLE, non GONE: il pannello e' alto quanto il piu' alto e la foto non salta mai. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/radice"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingEnd="12dp">
+        <!-- la barra, uguale nei tre editor: indietro · nome · annulla/rifai · Save -->
+        <ImageButton
+            android:id="@+id/indietro"
+            style="@style/BottoneTondo"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_indietro" />
+        <TextView
+            android:id="@+id/nome_progetto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:paddingStart="4dp"
+            android:singleLine="true"
+            android:textColor="@color/testo"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <ImageButton
+            android:id="@+id/annulla"
+            style="@style/BottoneTondo"
+            android:contentDescription="Undo"
+            android:src="@drawable/ic_annulla" />
+        <ImageButton
+            android:id="@+id/rifai"
+            style="@style/BottoneTondo"
+            android:contentDescription="Redo"
+            android:src="@drawable/ic_rifai" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/salva"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:enabled="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
+            android:text="Save"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/nero">
+        <com.the151universe.art.FotoVista
+            android:id="@+id/vista"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!-- la penna, sopra la foto: accesa solo nella scheda Draw -->
+        <com.the151universe.art.LavagnaVista
+            android:id="@+id/lavagna"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ProgressBar
+            android:id="@+id/carica"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/carta"
+                android:paddingTop="8dp"
+        android:paddingBottom="4dp">
+
+        <!-- RITAGLIO: forme, gira, specchia, raddrizza -->
+        <LinearLayout
+            android:id="@+id/p_ritaglio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:id="@+id/rapporti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+            </HorizontalScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="4dp"
+                android:paddingEnd="8dp">
+                <ImageButton
+                    android:id="@+id/ruota"
+                    style="@style/BottoneTondo"
+                    android:contentDescription="Rotate"
+                    android:src="@drawable/ic_ruota" />
+                <ImageButton
+                    android:id="@+id/specchia"
+                    style="@style/BottoneTondo"
+                    android:contentDescription="Flip"
+                    android:src="@drawable/ic_specchia" />
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/raddrizza"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="Straighten"
+                    android:value="0"
+                    android:valueFrom="-45"
+                    android:valueTo="45"
+                    app:labelBehavior="gone" />
+                <TextView
+                    android:id="@+id/gradi"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:textColor="@color/testo"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/azzera_geometria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="Reset"
+                    android:textColor="@color/accento"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- LUCE: sei voci, un cursore -->
+        <LinearLayout
+            android:id="@+id/p_luce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:visibility="invisible">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:id="@+id/voci_luce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+            </HorizontalScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/cursore_luce"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:stepSize="1"
+                    android:value="0"
+                    android:valueFrom="-100"
+                    android:valueTo="100"
+                    app:labelBehavior="gone" />
+                <TextView
+                    android:id="@+id/valore_luce"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:textColor="@color/testo"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/azzera_luce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="Reset"
+                    android:textColor="@color/accento"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- FILTRI: le miniature, la forza -->
+        <LinearLayout
+            android:id="@+id/p_filtri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:visibility="invisible">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:id="@+id/filtri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp" />
+            </HorizontalScrollView>
+            <LinearLayout
+                android:id="@+id/riga_forza"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Strength"
+                    android:textColor="@color/testo_piano"
+                    android:textSize="14sp" />
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/forza"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:stepSize="1"
+                    android:value="100"
+                    android:valueFrom="0"
+                    android:valueTo="100"
+                    app:labelBehavior="gone" />
+                <TextView
+                    android:id="@+id/valore_forza"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:textColor="@color/testo"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- TESTO: aggiungi; con un testo scelto: font, colore, stile, misura -->
+        <FrameLayout
+            android:id="@+id/p_testo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="invisible">
+            <LinearLayout
+                android:id="@+id/testo_vuoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/aggiungi_testo"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="+  Add text"
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Tap a text on the photo to change it"
+                    android:textColor="@color/testo_piano"
+                    android:textSize="13sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/testo_scelto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="invisible">
+                <!-- testa: il testo scelto e «✓ Done» (uguale nei tre editor) -->
+                <LinearLayout style="@style/RigaTesta" android:layout_height="44dp">
+                    <TextView
+                        android:id="@+id/testa_testo"
+                        style="@style/TestaIspettore"
+                        android:layout_width="0dp"
+                        android:layout_weight="1" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chiudi_testo"
+                        style="@style/Fatto" />
+                </LinearLayout>
+                <HorizontalScrollView
+                    android:id="@+id/scorri_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+                    <LinearLayout
+                        android:id="@+id/font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+                </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+                    <LinearLayout
+                        android:id="@+id/colori"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+                </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+                    <LinearLayout
+                        android:id="@+id/stili"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+                </HorizontalScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Size"
+                        android:textColor="@color/testo_piano"
+                        android:textSize="14sp" />
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/misura"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:value="0.09"
+                        android:valueFrom="0.02"
+                        android:valueTo="0.6"
+                        app:labelBehavior="gone" />
+                </LinearLayout>
+                <!-- le azioni del testo, in fondo, stesso ordine dei tre editor -->
+                <LinearLayout style="@style/RigaAzioni">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/riscrivi"
+                        style="@style/Azione"
+                        android:text="Edit"
+                        app:icon="@drawable/ic_matita" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/duplica_testo"
+                        style="@style/Azione"
+                        android:text="Duplicate"
+                        app:icon="@drawable/ic_duplica" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/elimina_testo"
+                        style="@style/Azione"
+                        android:text="Delete"
+                        android:textColor="@color/accento"
+                        app:icon="@drawable/ic_cestino"
+                        app:iconTint="@color/accento" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- DISEGNO: la penna comune a tutti gli editor (PannelloMano), messa qui dal codice -->
+        <FrameLayout
+            android:id="@+id/p_mano"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/fondo"
+        android:orientation="horizontal">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tab_ritaglio"
+            style="@style/Attrezzo"
+            android:text="Crop"
+            app:icon="@drawable/ic_ritaglia" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tab_luce"
+            style="@style/Attrezzo"
+            android:text="Light"
+            app:icon="@drawable/ic_luce" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tab_filtri"
+            style="@style/Attrezzo"
+            android:text="Filters"
+            app:icon="@drawable/ic_filtri" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tab_testo"
+            style="@style/Attrezzo"
+            android:text="Text"
+            app:icon="@drawable/ic_testo" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tab_disegno"
+            style="@style/Attrezzo"
+            android:text="Draw"
+            app:icon="@drawable/ic_pennello" />
+    </LinearLayout>
+</LinearLayout>

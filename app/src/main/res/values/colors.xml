@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fondo">#121014</color>
+    <color name="carta">#1E1A22</color>
+    <color name="riga">#2A2530</color>
+    <color name="testo">#F2EEF5</color>
+    <color name="testo_piano">#A79FB0</color>
+    <color name="accento">#FF5C8A</color>
+    <!-- il nero dietro il video e il bianco della riga del tempo: gli stessi di prima, ora con un nome -->
+    <color name="nero">#000000</color>
+    <color name="bianco">#FFFFFF</color>
+    <!-- i blocchi di testi e musica nella timeline: toni presi dal viola della famiglia -->
+    <color name="blocco_testo">#3A2F44</color>
+    <color name="blocco_musica">#241F2B</color>
+    <!-- margini e colonne nell'editor, come InDesign: margini rosa-viola, colonne viola; non si stampano -->
+    <color name="guida_margine">#D040C8</color>
+    <color name="guida_colonna">#8A6CF0</color>
+</resources>

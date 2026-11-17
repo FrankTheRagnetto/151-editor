@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- L'editor video, in orizzontale e a tutto schermo. Lo schema unico dei tre editor:
+     - BARRA in alto: indietro · nome · [Play e tempo al centro] · annulla/rifai · Save;
+     - ATTREZZI sempre visibili: la colonna «Add» a sinistra (Clip, Music, Text, Draw);
+     - PANNELLO a destra, a tutta altezza: solo la cosa scelta, «✓ Done» in testa, azioni in fondo;
+     - sotto il video la timeline a tre corsie con i nomi. -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/radice"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- BARRA: il progetto -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="8dp">
+                <ImageButton
+                    android:id="@+id/indietro"
+                    style="@style/BottoneTondo"
+                    android:contentDescription="Back"
+                    android:src="@drawable/ic_indietro" />
+                <!-- il nome si ferma prima di Play: non ci passa mai sotto -->
+                <TextView
+                    android:id="@+id/nome_progetto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxWidth="200dp"
+                    android:paddingStart="4dp"
+                    android:singleLine="true"
+                    android:textColor="@color/testo"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+                <ImageButton
+                    android:id="@+id/annulla"
+                    style="@style/BottoneTondo"
+                    android:contentDescription="Undo"
+                    android:src="@drawable/ic_annulla" />
+                <ImageButton
+                    android:id="@+id/rifai"
+                    style="@style/BottoneTondo"
+                    android:contentDescription="Redo"
+                    android:src="@drawable/ic_rifai" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/esporta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="6dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="Save"
+                    android:textSize="15sp" />
+            </LinearLayout>
+            <!-- Play e tempo, al centro della barra, sopra l'immagine -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <!-- ‹ › un fotogramma alla volta (tenuto premuto: di fila), per i tagli fini -->
+                <ImageButton
+                    android:id="@+id/passo_indietro"
+                    android:layout_width="40dp"
+                    android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="One frame back"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_passo_indietro" />
+                <ImageButton
+                    android:id="@+id/suona"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/fondo_play"
+                    android:contentDescription="Play"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_play"
+                    android:tint="@color/fondo" />
+                <ImageButton
+                    android:id="@+id/passo_avanti"
+                    android:layout_width="40dp"
+                    android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="One frame forward"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_passo_avanti" />
+                <TextView
+                    android:id="@+id/tempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFeatureSettings="tnum"
+                    android:minWidth="150dp"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/testo"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:id="@+id/cornice"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/nero">
+                        <androidx.media3.ui.PlayerView
+                            android:id="@+id/lettore"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:resize_mode="fit"
+                            app:shutter_background_color="@color/nero"
+                            app:use_controller="false" />
+                        <com.the151universe.art.ScritteVista
+                            android:id="@+id/scritte_vista"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                        <!-- il nero delle transizioni nell'anteprima (nel file lo fa Esporta.Nero) -->
+                        <View
+                            android:id="@+id/nero_vista"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0"
+                            android:background="@color/nero" />
+                        <!-- la penna, sopra il video: accesa solo mentre si disegna -->
+                        <com.the151universe.art.LavagnaVista
+                            android:id="@+id/lavagna"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <com.the151universe.art.Timeline
+                    android:id="@+id/timeline"
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp" />
+            </LinearLayout>
+
+            <!-- PANNELLO: solo la cosa scelta, a tutta altezza -->
+            <FrameLayout
+                android:id="@+id/ispettore"
+                android:layout_width="276dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/fondo_ispettore">
+
+                <!-- NIENTE SCELTO: il progetto e come si fa -->
+                <LinearLayout
+                    android:id="@+id/p_niente"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/info_progetto"
+                        style="@style/TestaIspettore"
+                        android:layout_height="44dp" />
+                    <TextView
+                        style="@style/Aiuto"
+                        android:text="Tap something on the timeline to change it." />
+                </LinearLayout>
+
+                <!-- CLIP SCELTA -->
+                <LinearLayout
+                    android:id="@+id/p_clip"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout style="@style/RigaTesta" android:layout_height="44dp">
+                        <TextView
+                            android:id="@+id/testa_clip"
+                            style="@style/TestaIspettore"
+                            android:layout_width="0dp"
+                            android:layout_weight="1" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/chiudi_clip"
+                            style="@style/Fatto" />
+                    </LinearLayout>
+                    <!-- volume e velocità: [icona] [− cursore lungo +] [numero da toccare per scriverlo]; il normale sta al centro -->
+                    <LinearLayout style="@style/RigaCursore">
+                        <ImageButton
+                            android:id="@+id/muto_clip"
+                            style="@style/IconaCursore"
+                            android:contentDescription="Mute"
+                            android:src="@drawable/ic_volume" />
+                        <com.the151universe.art.CursoreVista
+                            android:id="@+id/volume_clip"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1" />
+                        <TextView
+                            android:id="@+id/valore_clip"
+                            style="@style/ValoreTocca"
+                            android:contentDescription="Type the number" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/RigaCursore">
+                        <ImageView
+                            style="@style/IconaCursore"
+                            android:contentDescription="Speed"
+                            android:src="@drawable/ic_velocita" />
+                        <com.the151universe.art.CursoreVista
+                            android:id="@+id/velocita_clip"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1" />
+                        <TextView
+                            android:id="@+id/valore_velocita"
+                            style="@style/ValoreTocca"
+                            android:contentDescription="Type the number" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/aiuto_clip"
+                        style="@style/Aiuto" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+                    <LinearLayout style="@style/RigaAzioni">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/dividi"
+                            style="@style/AzioneIcona"
+                            android:contentDescription="Split"
+                            app:icon="@drawable/ic_taglia" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/duplica"
+                            style="@style/Azione"
+                            android:text="Duplicate"
+                            app:icon="@drawable/ic_duplica" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/elimina"
+                            style="@style/Azione"
+                            android:text="Delete"
+                            android:textColor="@color/accento"
+                            app:icon="@drawable/ic_cestino"
+                            app:iconTint="@color/accento" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- MUSICA SCELTA -->
+                <LinearLayout
+                    android:id="@+id/p_musica"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout style="@style/RigaTesta" android:layout_height="44dp">
+                        <TextView
+                            android:id="@+id/testa_musica"
+                            style="@style/TestaIspettore"
+                            android:layout_width="0dp"
+                            android:layout_weight="1" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/chiudi_musica"
+                            style="@style/Fatto" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/RigaCursore">
+                        <ImageButton
+                            android:id="@+id/muto_musica"
+                            style="@style/IconaCursore"
+                            android:contentDescription="Mute"
+                            android:src="@drawable/ic_volume" />
+                        <com.the151universe.art.CursoreVista
+                            android:id="@+id/volume_musica"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1" />
+                        <TextView
+                            android:id="@+id/valore_musica"
+                            style="@style/ValoreTocca"
+                            android:contentDescription="Type the number" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/RigaIspettore" android:paddingStart="8dp">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/entra_musica"
+                            style="@style/Interruttore"
+                            android:layout_marginEnd="6dp"
+                            android:text="Fade in" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/esce_musica"
+                            style="@style/Interruttore"
+                            android:text="Fade out" />
+                    </LinearLayout>
+                    <TextView
+                        style="@style/Aiuto"
+                        android:text="Drag it on the timeline to move it." />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+                    <LinearLayout style="@style/RigaAzioni">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/cambia_musica"
+                            style="@style/Azione"
+                            android:text="Replace"
+                            app:icon="@drawable/ic_musica" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/dividi_musica"
+                            style="@style/AzioneIcona"
+                            android:contentDescription="Split"
+                            app:icon="@drawable/ic_taglia" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/elimina_musica"
+                            style="@style/Azione"
+                            android:text="Delete"
+                            android:textColor="@color/accento"
+                            app:icon="@drawable/ic_cestino"
+                            app:iconTint="@color/accento" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- TESTO (o DISEGNO) SCELTO -->
+                <LinearLayout
+                    android:id="@+id/p_testo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout style="@style/RigaTesta" android:layout_height="44dp">
+                        <TextView
+                            android:id="@+id/testa_testo"
+                            style="@style/TestaIspettore"
+                            android:layout_width="0dp"
+                            android:layout_weight="1" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/chiudi_testo"
+                            style="@style/Fatto" />
+                    </LinearLayout>
+                    <HorizontalScrollView style="@style/RigaScorre">
+                        <LinearLayout
+                            android:id="@+id/font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp" />
+                    </HorizontalScrollView>
+                    <HorizontalScrollView style="@style/RigaScorre">
+                        <LinearLayout
+                            android:id="@+id/colori"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp" />
+                    </HorizontalScrollView>
+                    <HorizontalScrollView style="@style/RigaScorre">
+                        <LinearLayout
+                            android:id="@+id/stili"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp" />
+                    </HorizontalScrollView>
+                    <TextView
+                        android:id="@+id/aiuto_testo"
+                        style="@style/Aiuto" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+                    <LinearLayout style="@style/RigaAzioni">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/riscrivi"
+                            style="@style/Azione"
+                            android:text="Edit"
+                            app:icon="@drawable/ic_matita" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/duplica_testo"
+                            style="@style/Azione"
+                            android:text="Duplicate"
+                            app:icon="@drawable/ic_duplica" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/elimina_testo"
+                            style="@style/Azione"
+                            android:text="Delete"
+                            android:textColor="@color/accento"
+                            app:icon="@drawable/ic_cestino"
+                            app:iconTint="@color/accento" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- TRANSIZIONE SCELTA (il tondo fra due clip) -->
+                <LinearLayout
+                    android:id="@+id/p_transizione"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout style="@style/RigaTesta" android:layout_height="44dp">
+                        <TextView
+                            android:id="@+id/testa_transizione"
+                            style="@style/TestaIspettore"
+                            android:layout_width="0dp"
+                            android:layout_weight="1" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/chiudi_transizione"
+                            style="@style/Fatto" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/tipi_transizione"
+                        style="@style/RigaIspettore"
+                        android:paddingStart="8dp" />
+                    <LinearLayout
+                        android:id="@+id/riga_durata"
+                        style="@style/RigaCursore">
+                        <ImageView
+                            style="@style/IconaCursore"
+                            android:contentDescription="Length"
+                            android:src="@drawable/ic_velocita" />
+                        <com.the151universe.art.CursoreVista
+                            android:id="@+id/durata_transizione"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1" />
+                        <TextView
+                            android:id="@+id/valore_durata"
+                            style="@style/ValoreTocca"
+                            android:contentDescription="Type the length" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- IL TASTIERINO dei numeri: dentro il pannello, la tastiera del telefono non copre il video -->
+                <LinearLayout
+                    android:id="@+id/p_numero"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <LinearLayout style="@style/RigaTesta" android:layout_height="44dp">
+                        <TextView
+                            android:id="@+id/testa_numero"
+                            style="@style/TestaIspettore"
+                            android:layout_width="0dp"
+                            android:layout_weight="1" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/chiudi_numero"
+                            style="@style/Fatto" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/schermo_numero"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/fondo_valore"
+                        android:fontFeatureSettings="tnum"
+                        android:gravity="center"
+                        android:textColor="@color/testo"
+                        android:textSize="24sp" />
+                    <!-- 4 righe da 3 tasti, fatte dal codice -->
+                    <LinearLayout
+                        android:id="@+id/tasti"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:orientation="vertical" />
+                </LinearLayout>
+
+                <!-- DISEGNO: la penna comune a tutti gli editor (PannelloMano), messa qui dal codice -->
+                <ScrollView
+                    android:id="@+id/p_mano"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

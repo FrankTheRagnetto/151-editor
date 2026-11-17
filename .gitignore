@@ -1,0 +1,17 @@
+# build
+.gradle/
+/build/
+/app/build/
+local.properties
+*.iml
+.idea/
+.kotlin/
+# firma: il keystore NON si versiona e NON si cancella mai (vedi README)
+.signing/
+*.jks
+*.keystore
+keystore.properties
+# consegne locali
+dist/
+*.apk
+*.aab

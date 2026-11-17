@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Crossfade: una rampa che scende e una che sale, incrociate -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:strokeColor="@color/testo" android:strokeWidth="1.8" android:strokeLineCap="round" android:pathData="M2,7H8L16,17H22" />
+    <path android:strokeColor="@color/testo" android:strokeWidth="1.8" android:strokeLineCap="round" android:pathData="M2,17H8L16,7H22" />
+</vector>

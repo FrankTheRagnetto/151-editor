@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Salvare un design: il foglio finito e due tasti, «Save PDF» e «Save image»; sempre un file NUOVO, il design resta.
+     Nessuna riga di spiegazioni: la riga sotto l'anteprima appare solo salvando e dopo, una sola. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="4dp">
+        <ImageButton
+            android:id="@+id/chiudi"
+            style="@style/BottoneTondo"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_indietro" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Save"
+            android:textColor="@color/testo"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/finita"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/nero"
+        android:contentDescription="Your finished design"
+        android:padding="16dp"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/stato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="@color/testo"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sinistra"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:textSize="16sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/destra"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>

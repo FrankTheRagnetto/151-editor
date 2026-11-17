@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- L'editor «Design», in verticale come la foto. Due schermi nella stessa pagina:
+     «New design» (formato o modello) e l'editor: sopra indietro/annulla/rifai e Save, al centro
+     il foglio, sotto l'ispettore che mostra SOLO la cosa scelta. L'ispettore ha sempre la stessa
+     altezza: il foglio non salta mai. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/radice"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/inizio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="4dp">
+            <ImageButton
+                android:id="@+id/inizio_indietro"
+                style="@style/BottoneTondo"
+                android:contentDescription="Back"
+                android:src="@drawable/ic_indietro" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="New design"
+                android:textColor="@color/testo"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:id="@+id/inizio_corpo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="24dp" />
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/editor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="4dp"
+            android:paddingEnd="12dp">
+            <!-- la barra, uguale nei tre editor: indietro · nome · annulla/rifai · Save -->
+            <ImageButton
+                android:id="@+id/indietro"
+                style="@style/BottoneTondo"
+                android:contentDescription="Back"
+                android:src="@drawable/ic_indietro" />
+            <TextView
+                android:id="@+id/nome_progetto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:paddingStart="4dp"
+                android:singleLine="true"
+                android:textColor="@color/testo"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/annulla"
+                style="@style/BottoneTondo"
+                android:contentDescription="Undo"
+                android:src="@drawable/ic_annulla" />
+            <ImageButton
+                android:id="@+id/rifai"
+                style="@style/BottoneTondo"
+                android:contentDescription="Redo"
+                android:src="@drawable/ic_rifai" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/salva"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:text="Save"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/cornice_vista"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <com.the151universe.art.GraficaVista
+                android:id="@+id/vista"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/nero" />
+            <!-- la penna, sopra il foglio: accesa solo mentre si disegna -->
+            <com.the151universe.art.LavagnaVista
+                android:id="@+id/lavagna"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+        <!-- le pagine: ‹ · «3 / 72» apre Pages · › -->
+        <LinearLayout
+            android:id="@+id/fila_pagine"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/nero"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/pagina_prima"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Previous page"
+                android:src="@drawable/ic_freccia_sx" />
+            <TextView
+                android:id="@+id/pagine_conta"
+                android:layout_width="wrap_content"
+                android:minWidth="112dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/fondo_pagine"
+                android:drawableStart="@drawable/ic_griglia"
+                android:drawablePadding="8dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="14dp"
+                android:singleLine="true"
+                android:textColor="@color/testo"
+                android:textSize="15sp" />
+            <ImageButton
+                android:id="@+id/pagina_dopo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Next page"
+                android:src="@drawable/ic_freccia_dx" />
+            <ImageButton
+                android:id="@+id/pagine_affiancate"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Two pages side by side"
+                android:src="@drawable/ic_due_pagine" />
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/cornice_pannello"
+            android:layout_width="match_parent"
+            android:layout_height="254dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp">
+            <LinearLayout
+                android:id="@+id/pannello"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/fondo_ispettore"
+                android:orientation="vertical" />
+        </FrameLayout>
+        <!-- gli attrezzi, sempre qui (come le schede della foto) -->
+        <LinearLayout
+            android:id="@+id/attrezzi"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:background="@color/fondo"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/att_testo"
+                style="@style/Attrezzo"
+                android:text="Text"
+                app:icon="@drawable/ic_testo" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/att_foto"
+                style="@style/Attrezzo"
+                android:text="Photo"
+                app:icon="@drawable/ic_foto" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/att_forme"
+                style="@style/Attrezzo"
+                android:text="Shape"
+                app:icon="@drawable/ic_forme" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/att_disegno"
+                style="@style/Attrezzo"
+                android:text="Draw"
+                app:icon="@drawable/ic_pennello" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/att_pagina"
+                style="@style/Attrezzo"
+                android:text="Page"
+                app:icon="@drawable/ic_pagina" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

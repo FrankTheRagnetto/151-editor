@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- L'editor Audio, 0.17.0.
+     In orizzontale e a tutto schermo, SENZA pannello a destra: le corsie usano tutta la larghezza.
+     - BARRA in alto: indietro · nome · [tempo al centro] · annulla/rifai · Save;
+     - le CORSIE (CorsieVista), alte quanto resta;
+     - BARRA in basso: Play grande a sinistra (pollice sinistro), poi una fila che cambia con quello
+       che fai: il progetto (Start, End, Loop, See all, Even out … + Sound, Voice sotto il pollice destro),
+       il suono scelto, il suo volume, le sue dissolvenze, la corsia toccata. -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/radice"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- BARRA in alto -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="8dp">
+                <ImageButton
+                    android:id="@+id/indietro"
+                    style="@style/BottoneTondo"
+                    android:contentDescription="Back"
+                    android:src="@drawable/ic_indietro" />
+                <TextView
+                    android:id="@+id/nome_progetto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxWidth="220dp"
+                    android:paddingStart="4dp"
+                    android:singleLine="true"
+                    android:textColor="@color/testo"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+                <ImageButton
+                    android:id="@+id/annulla"
+                    style="@style/BottoneTondo"
+                    android:contentDescription="Undo"
+                    android:src="@drawable/ic_annulla" />
+                <ImageButton
+                    android:id="@+id/rifai"
+                    style="@style/BottoneTondo"
+                    android:contentDescription="Redo"
+                    android:src="@drawable/ic_rifai" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/esporta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="6dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:paddingStart="22dp"
+                    android:paddingEnd="22dp"
+                    android:text="Save"
+                    android:textSize="15sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tempo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFeatureSettings="tnum"
+                android:textColor="@color/testo"
+                android:textSize="15sp" />
+        </FrameLayout>
+
+        <com.the151universe.art.CorsieVista
+            android:id="@+id/corsie"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/riga" />
+
+        <!-- BARRA in basso: Play sempre a sinistra, poi la fila del momento -->
+        <LinearLayout
+            android:id="@+id/barra_basso"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="10dp">
+            <ImageButton
+                android:id="@+id/suona"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/fondo_play"
+                android:contentDescription="Play"
+                android:scaleType="center"
+                android:src="@drawable/ic_play"
+                android:tint="@color/fondo" />
+            <View
+                android:layout_width="12dp"
+                android:layout_height="1dp" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <!-- IL PROGETTO (niente scelto) -->
+                <LinearLayout
+                    android:id="@+id/barra_progetto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vai_inizio"
+                        style="@style/AzioneBarra"
+                        android:text="Start"
+                        app:icon="@drawable/ic_inizio" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vai_fine"
+                        style="@style/AzioneBarra"
+                        android:text="End"
+                        app:icon="@drawable/ic_fine" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/loop"
+                        style="@style/AzioneBarra"
+                        android:text="Loop"
+                        app:icon="@drawable/ic_loop" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/segna"
+                        style="@style/AzioneBarra"
+                        android:text="Marker"
+                        app:icon="@drawable/ic_segno" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vedi_tutto"
+                        style="@style/AzioneBarra"
+                        android:text="See all"
+                        app:icon="@drawable/ic_tutto" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/pareggia"
+                        style="@style/AzioneBarra"
+                        android:text="Even out"
+                        app:icon="@drawable/ic_pari" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/aggiungi_suono"
+                        style="@style/Aggiungi"
+                        android:layout_marginEnd="8dp"
+                        android:text="Sound"
+                        app:icon="@drawable/ic_piu" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/aggiungi_voce"
+                        style="@style/Aggiungi"
+                        android:text="Voice"
+                        app:icon="@drawable/ic_microfono" />
+                </LinearLayout>
+
+                <!-- UN SUONO SCELTO -->
+                <!-- 11 azioni non stanno in 732 dp (telefono di prova in orizzontale): scorrono, e Done resta sempre fermo a destra
+ -->
+                <LinearLayout
+                    android:id="@+id/barra_suono"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <HorizontalScrollView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fadingEdgeLength="16dp"
+                        android:requiresFadingEdge="horizontal"
+                        android:scrollbars="none">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                    <!-- il nome era già a 0 dp da quando le azioni riempiono la fila: il nome si legge sul blocco -->
+                    <TextView
+                        android:id="@+id/nome_suono"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:paddingEnd="8dp"
+                        android:textColor="@color/testo"
+                        android:textSize="14sp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/apri_volume"
+                        style="@style/AzioneBarra"
+                        android:text="100%"
+                        app:icon="@drawable/ic_volume" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/apri_velocita"
+                        style="@style/AzioneBarra"
+                        android:text="1×"
+                        android:contentDescription="Speed"
+                        app:icon="@drawable/ic_velocita" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/apri_fade"
+                        style="@style/AzioneBarra"
+                        android:text="Fades"
+                        app:icon="@drawable/ic_dissolvenza" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/colore_suono"
+                        style="@style/AzioneBarra"
+                        android:text="Colour"
+                        app:icon="@drawable/ic_colore_suono" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/dividi_suono"
+                        style="@style/AzioneBarra"
+                        android:text="Split"
+                        app:icon="@drawable/ic_taglia" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/togli_silenzi"
+                        style="@style/AzioneBarra"
+                        android:text="Remove silences"
+                        app:icon="@drawable/ic_silenzi" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/pulisci_suono"
+                        style="@style/AzioneBarra"
+                        android:text="Clean noise"
+                        app:icon="@drawable/ic_pulisci" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/passaggio_suono"
+                        style="@style/AzioneBarra"
+                        android:text="Crossfade"
+                        app:icon="@drawable/ic_passaggio" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/duplica_suono"
+                        style="@style/AzioneBarra"
+                        android:text="Copy"
+                        app:icon="@drawable/ic_duplica" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/cambia_suono"
+                        style="@style/AzioneBarra"
+                        android:text="Replace"
+                        app:icon="@drawable/ic_musica" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/elimina_suono"
+                        style="@style/AzioneBarra"
+                        android:text="Delete"
+                        android:textColor="@color/accento"
+                        app:icon="@drawable/ic_cestino"
+                        app:iconTint="@color/accento" />
+                    </LinearLayout>
+                    </HorizontalScrollView>
+                    <!-- Delete staccato da Done: un filo e 12 dp per parte, un pollice non li prende insieme -->
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="@color/riga" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chiudi_suono"
+                        style="@style/Fatto"
+                        android:layout_height="48dp" />
+                </LinearLayout>
+
+                <!-- IL VOLUME del suono scelto -->
+                <LinearLayout
+                    android:id="@+id/barra_volume"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/testa_volume"
+                        style="@style/EtichettaBarra"
+                        android:maxWidth="200dp"
+                        android:ellipsize="end"
+                        android:singleLine="true" />
+                    <com.the151universe.art.CursoreVista
+                        android:id="@+id/volume_suono"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1" />
+                    <TextView
+                        android:id="@+id/valore_suono"
+                        style="@style/ValoreBarra" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chiudi_volume"
+                        style="@style/Fatto"
+                        android:layout_height="48dp" />
+                </LinearLayout>
+
+                <!-- LE DISSOLVENZE del suono scelto: 0 = niente, fino a 5 s -->
+                <LinearLayout
+                    android:id="@+id/barra_fade"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <TextView
+                        style="@style/EtichettaBarra"
+                        android:text="Fade in" />
+                    <com.the151universe.art.CursoreVista
+                        android:id="@+id/fade_entra"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1" />
+                    <TextView
+                        android:id="@+id/valore_entra"
+                        style="@style/ValoreBarra" />
+                    <TextView
+                        style="@style/EtichettaBarra"
+                        android:paddingStart="12dp"
+                        android:text="Fade out" />
+                    <com.the151universe.art.CursoreVista
+                        android:id="@+id/fade_esce"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1" />
+                    <TextView
+                        android:id="@+id/valore_esce"
+                        style="@style/ValoreBarra" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chiudi_fade"
+                        style="@style/Fatto"
+                        android:layout_height="48dp" />
+                </LinearLayout>
+
+                <!-- LA VELOCITÀ del suono scelto: 1× al centro, da 0,25× a 4×; il numero toccato si scrive (0,1–30×) -->
+                <LinearLayout
+                    android:id="@+id/barra_velocita"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <TextView
+                        style="@style/EtichettaBarra"
+                        android:text="Speed" />
+                    <com.the151universe.art.CursoreVista
+                        android:id="@+id/velocita_suono"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1" />
+                    <TextView
+                        android:id="@+id/valore_velocita"
+                        style="@style/ValoreTocca"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Type the number" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chiudi_velocita"
+                        style="@style/Fatto"
+                        android:layout_height="48dp" />
+                </LinearLayout>
+
+                <!-- IL NUMERO scritto a mano: una fila di tasti nella barra (niente pannello a destra) -->
+                <LinearLayout
+                    android:id="@+id/barra_numero"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/testa_numero"
+                        style="@style/EtichettaBarra" />
+                    <TextView
+                        android:id="@+id/schermo_numero"
+                        style="@style/ValoreBarra"
+                        android:minWidth="72dp"
+                        android:textSize="18sp" />
+                    <!-- i tasti 1…9, 0, «.», ⌫: fatti dal codice -->
+                    <LinearLayout
+                        android:id="@+id/tasti_numero"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chiudi_numero"
+                        style="@style/Fatto"
+                        android:layout_height="48dp" />
+                </LinearLayout>
+
+                <!-- LA CORSIA toccata (il suo numero a sinistra delle corsie) -->
+                <LinearLayout
+                    android:id="@+id/barra_corsia"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/testa_corsia"
+                        style="@style/EtichettaBarra"
+                        android:textColor="@color/testo"
+                        android:textSize="14sp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/muta_corsia"
+                        style="@style/Interruttore"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="0"
+                        android:layout_marginStart="6dp"
+                        android:minWidth="76dp"
+                        android:text="Mute" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/solo_corsia"
+                        style="@style/Interruttore"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="0"
+                        android:layout_marginStart="6dp"
+                        android:minWidth="76dp"
+                        android:text="Solo" />
+                    <TextView
+                        style="@style/EtichettaBarra"
+                        android:paddingStart="14dp"
+                        android:text="Lane volume" />
+                    <com.the151universe.art.CursoreVista
+                        android:id="@+id/volume_corsia"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1" />
+                    <TextView
+                        android:id="@+id/valore_corsia"
+                        style="@style/ValoreBarra" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chiudi_corsia"
+                        style="@style/Fatto"
+                        android:layout_height="48dp" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

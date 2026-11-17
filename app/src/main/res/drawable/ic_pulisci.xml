@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Clean noise: l'onda a sinistra sporca di puntini, a destra pulita -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="@color/testo" android:pathData="M13,7h1.5v10H13zM15.5,9.5H17v5h-1.5zM18,5h1.5v14H18zM20.5,10H22v4h-1.5z" />
+    <path android:fillColor="@color/testo" android:pathData="M2,11h1.2v1.2H2zM4,8h1.2v1.2H4zM4.5,14.5h1.2v1.2H4.5zM6.5,11.5h1.2v1.2H6.5zM8,6.5h1.2v1.2H8zM8.5,16h1.2v1.2H8.5zM10.2,10h1.2v1.2h-1.2zM6,4.5h1.2v1.2H6zM3,17.5h1.2v1.2H3z" />
+</vector>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- cosa rappresenta un bottone di una riga (il font, il colore): per accenderlo senza contare le posizioni -->
+    <item name="chiave" type="id" />
+</resources>

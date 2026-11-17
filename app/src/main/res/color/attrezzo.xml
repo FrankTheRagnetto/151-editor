@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Testo e icona degli attrezzi: spento = 38% (si vede che non si puo' toccare), acceso = testo pieno. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:alpha="0.38" android:color="@color/testo" android:state_enabled="false" />
+    <item android:color="@color/testo" />
+</selector>

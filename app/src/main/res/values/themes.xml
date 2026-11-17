@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Art" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/accento</item>
+        <item name="colorOnPrimary">@color/bianco</item>
+        <item name="colorSecondary">@color/accento</item>
+        <item name="colorAccent">@color/accento</item>
+        <item name="android:colorBackground">@color/fondo</item>
+        <item name="colorSurface">@color/carta</item>
+        <item name="android:windowBackground">@color/fondo</item>
+        <item name="android:statusBarColor">@color/fondo</item>
+        <item name="android:navigationBarColor">@color/fondo</item>
+        <!-- le finestre (Save, scegli, conferme) vestite come l'app, non quelle grigie di sistema -->
+        <item name="materialAlertDialogTheme">@style/Finestra</item>
+    </style>
+    <style name="Finestra" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">@color/carta</item>
+        <item name="colorSurfaceContainerHigh">@color/carta</item>
+        <item name="colorPrimary">@color/accento</item>
+        <item name="colorOnSurface">@color/testo</item>
+        <item name="colorOnSurfaceVariant">@color/testo_piano</item>
+        <item name="shapeAppearanceCornerExtraLarge">@style/FinestraAngoli</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/FinestraTitolo</item>
+        <item name="buttonBarPositiveButtonStyle">@style/FinestraSi</item>
+        <item name="buttonBarNegativeButtonStyle">@style/FinestraNo</item>
+        <!-- le voci di un elenco (Save as, Colour, Crossfade) sono le scelte: testo pieno, non il grigio dei messaggi -->
+        <item name="android:checkedTextViewStyle">@style/FinestraScelta</item>
+        <item name="alertDialogStyle">@style/FinestraCorpo</item>
+    </style>
+    <style name="FinestraScelta" parent="Widget.Material3.CheckedTextView">
+        <item name="android:textColor">@color/testo</item>
+    </style>
+    <style name="FinestraCorpo" parent="MaterialAlertDialog.Material3">
+        <item name="listItemLayout">@layout/finestra_voce</item>
+    </style>
+    <style name="FinestraAngoli">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">22dp</item>
+    </style>
+    <style name="FinestraTitolo" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textColor">@color/testo</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- «Done», «Add»: la pillola rosa piena; «Cancel»: solo la parola -->
+    <style name="FinestraSi" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/bianco</item>
+        <item name="backgroundTint">@color/accento</item>
+        <item name="android:minWidth">88dp</item>
+    </style>
+    <style name="FinestraNo" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/testo_piano</item>
+    </style>
+    <!-- un attrezzo dell'editor: icona sopra, parola sotto, un quarto di riga -->
+    <style name="Attrezzo" parent="Widget.Material3.Button.TextButton.Icon">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/attrezzo</item>
+        <item name="iconGravity">top</item>
+        <item name="iconSize">26dp</item>
+        <item name="iconTint">@color/attrezzo</item>
+        <item name="iconPadding">2dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+    <style name="BottoneTondo">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">center</item>
+    </style>
+    <!-- ispettore dell'editor video: testa, righe 48, azioni 46; dal 0.8.0 a tutta altezza (sotto la barra) -->
+    <style name="TestaIspettore">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@color/testo</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="RigaTesta">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="RigaIspettore">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+    <style name="RigaScorre">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:scrollbars">none</item>
+    </style>
+    <style name="RigaAzioni">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">58dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+    </style>
+    <style name="CursoreIspettore">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:stepSize">1</item>
+        <item name="android:value">100</item>
+        <item name="labelBehavior">gone</item>
+        <item name="tickVisible">false</item>
+    </style>
+    <style name="ValoreIspettore">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:textColor">@color/testo</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- acceso/spento: bordo e testo accento quando e' acceso -->
+    <style name="Interruttore" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:checkable">true</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+    <!-- un'azione in fondo al pannello: icona sopra, parola sotto, su una riga sola -->
+    <style name="Azione" parent="Widget.Material3.Button.TextButton.Icon">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:singleLine">true</item>
+        <item name="iconGravity">top</item>
+        <item name="iconPadding">2dp</item>
+        <item name="android:textColor">@color/testo</item>
+        <item name="iconTint">@color/testo</item>
+        <item name="iconSize">20dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+    </style>
+    <!-- Audio: un'azione della barra in basso (simbolo sopra, parola sotto), larga quanto serve, mai sotto i 56 dp -->
+    <style name="AzioneBarra" parent="Azione">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:minWidth">60dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+    <!-- Audio: «+ Sound» e «Voice» nella barra in basso, sotto il pollice destro -->
+    <style name="Aggiungi" parent="Widget.Material3.Button.OutlinedButton.Icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/testo</item>
+        <item name="iconTint">@color/accento</item>
+        <item name="iconSize">20dp</item>
+        <item name="strokeColor">@color/riga</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+    <!-- Audio: il nome di un cursore nella barra in basso -->
+    <style name="EtichettaBarra">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/testo_piano</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">4dp</item>
+    </style>
+    <!-- Audio: il numero di un cursore nella barra in basso -->
+    <style name="ValoreBarra">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:minWidth">56dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/testo</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+
+    <!-- un'azione col solo simbolo (Split = le forbici): il nome resta per chi legge lo schermo -->
+    <style name="AzioneIcona" parent="Azione">
+        <item name="android:text"></item>
+        <item name="iconGravity">top</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconSize">26dp</item>
+    </style>
+    <!-- «✓ Done»: chiude la cosa scelta, in alto a destra di ogni pannello, in tutti gli editor -->
+    <style name="Fatto" parent="Widget.Material3.Button.TextButton.Icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:text">Done</item>
+        <item name="android:contentDescription">Done</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/accento</item>
+        <item name="icon">@drawable/ic_fatto</item>
+        <item name="iconTint">@color/accento</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconPadding">4dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">12dp</item>
+    </style>
+    <!-- un aiuto corto dentro un pannello -->
+    <style name="Aiuto">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:textColor">@color/testo_piano</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="RigaCursore">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">2dp</item>
+        <item name="android:paddingEnd">2dp</item>
+    </style>
+    <style name="IconaCursore">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">center</item>
+    </style>
+    <!-- il numero di un cursore: si tocca per scriverlo (pillola chiara) -->
+    <style name="ValoreTocca">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:minWidth">58dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:background">@drawable/fondo_valore</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:textColor">@color/testo</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- due pagine affiancate: il libro aperto (Design, chi lo usa 05/11) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="@color/testo" android:pathData="M2,5h9v14H2zM4,7v10h5V7zM13,5h9v14h-9zM15,7v10h5V7z" />
+</vector>
